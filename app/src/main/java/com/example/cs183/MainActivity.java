@@ -1,8 +1,15 @@
 package com.example.cs183;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -23,13 +30,19 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+    //地图系列
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
     private LocationClient mLocationClient = null;
 
     private boolean isFirstLocate = true;
     private MyLocationConfiguration.LocationMode locationMode;
+
+    //经纬度系列
+    //private LocationManager locationManager;
 
     //Button
     private Button enter ;
@@ -48,8 +61,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         SDKInitializer.initialize(getApplicationContext());
 
+        //设置经纬度
+        //SetJWD();
+
         //设置地图
         SetMap();
+
         //设置按钮
         SetButton();
         //设置文本
@@ -95,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
             stringBuilder.append("\n街道：" + location.getStreet());
             stringBuilder.append("\n地址：" + location.getAddrStr());
 
-            textView01.setText(stringBuilder.toString());
+            //textView01.setText(stringBuilder.toString());
         }
     }
 
@@ -120,6 +137,7 @@ public class MainActivity extends AppCompatActivity {
         mMapView.onDestroy();
         mMapView = null;
         super.onDestroy();
+
     }
 
     public void SetMap(){
@@ -151,6 +169,7 @@ public class MainActivity extends AppCompatActivity {
         mLocationClient.start();
 
     }
+
 
     public  void  SetButton(){
         enter = (Button) findViewById(R.id.AC1_BT_enterTestPoint) ;
