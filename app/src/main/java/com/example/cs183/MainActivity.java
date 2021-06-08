@@ -1,15 +1,8 @@
 package com.example.cs183;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -30,8 +23,6 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 
-import java.util.List;
-
 public class MainActivity extends AppCompatActivity {
     //地图系列
     private MapView mMapView = null;
@@ -50,7 +41,8 @@ public class MainActivity extends AppCompatActivity {
     private Button update ;
 
     //TextView
-    private TextView mtextView;
+    private TextView textView1;
+    private TextView textView2;
 
 
 
@@ -68,6 +60,9 @@ public class MainActivity extends AppCompatActivity {
 
         //设置按钮
         SetButton();
+
+        //设置TV
+        SetTexView();
 
     }
     // 继承抽象类BDAbstractListener并重写其onReceieveLocation方法来获取定位数据，并将其传给MapView
@@ -109,8 +104,8 @@ public class MainActivity extends AppCompatActivity {
             stringBuilder.append("\n街道：" + location.getStreet());
             stringBuilder.append("\n地址：" + location.getAddrStr());
 
-            mtextView.setText(stringBuilder.toString());
-
+            textView1.setText("经度： " + location.getLatitude());
+            textView2.setText("纬度： " + location.getLongitude());
         }
     }
 
@@ -142,7 +137,7 @@ public class MainActivity extends AppCompatActivity {
         //获取地图控件引用
         mMapView = findViewById(R.id.bmapView);
         //获取文本显示控件
-        mtextView = findViewById(R.id.AC1_TV01);
+        //textView1 = findViewById(R.id.AC1_TV01);
         // 得到地图
         mBaiduMap = mMapView.getMap();
         // 开启定位图层
@@ -201,6 +196,11 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    public  void  SetTexView(){
+        textView1 = (TextView) findViewById(R.id.AC1_TV_01);
+        textView2 = (TextView) findViewById(R.id.AC1_TV_02);
     }
 
 }
