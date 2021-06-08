@@ -88,8 +88,11 @@ public class TestPoint extends AppCompatActivity {
             stringBuilder.append("\n街道：" + location.getStreet());
             stringBuilder.append("\n地址：" + location.getAddrStr());
 
+            //经纬度是Double!
+
             textView1.setText("经度： " + location.getLatitude());
             textView2.setText("纬度： " + location.getLongitude());
+
         }
     }
 
