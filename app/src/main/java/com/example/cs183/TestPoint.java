@@ -75,6 +75,7 @@ public class TestPoint extends AppCompatActivity {
     //TextView
     private TextView textView1 ;
     private TextView textView2 ;
+    private TextView textView3 ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,9 +106,7 @@ public class TestPoint extends AppCompatActivity {
                 //如果处于测试状态
                 FindHole();
             }
-
-
-
+            ShowDetail();
         }
 
         @Override
@@ -214,6 +213,7 @@ public class TestPoint extends AppCompatActivity {
                     Toast.makeText(TestPoint.this,"存储位置归零",Toast.LENGTH_SHORT).show();
                 }
             }
+
             //存储模块--------------------------------------------------------------------------------------------------------------------
 
             //
@@ -317,5 +317,21 @@ public class TestPoint extends AppCompatActivity {
     public  void  SetTextView(){
         textView1 = (TextView) findViewById(R.id.TP_TV_01);
         textView2 = (TextView) findViewById(R.id.TP_TV_02);
+        textView3 = (TextView) findViewById(R.id.TP_TV_03);
+    }
+
+    public  void  ShowDetail(){
+        StringBuilder stringBuilder = new StringBuilder() ;
+        //
+        if(currentIndex >=1){
+            stringBuilder.append(istest+"||") ;
+            stringBuilder.append(currentIndex+"||");
+            stringBuilder.append(holes[currentIndex].getTime()+"||");
+            stringBuilder.append(holes[currentIndex].getValue()+"||");
+        }else{
+            stringBuilder.append("目前暂无数据");
+        }
+
+        textView3.setText(stringBuilder);
     }
 }
