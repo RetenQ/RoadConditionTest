@@ -34,9 +34,15 @@ public class TestPoint extends AppCompatActivity {
     private SensorManager sensorManager ; //创建传感器管理器
 
     //传感器对应数值
+    private  boolean istest = false ; //是否在测试
+    private  boolean needSave = false ; //是否需要存储
     private   int holeNum  ;
     private  int testMode ;
     private  boolean firsttime = true ;
+
+        //利用数组存储
+    private  Hole[] holes = new Hole[150] ;
+    private  int currentIndex = 0 ;
 
     float zValue = 0 ;
 
@@ -46,6 +52,12 @@ public class TestPoint extends AppCompatActivity {
 
     private  long theTimerStart = 0 ;
     private  long theTimerEnd = 1500 ;
+
+    private  double userLatitude ;
+    private  double userLongitude ;
+
+    private  double holeLatitude ; //某个坑洞的经度
+    private  double holeLongitude ; //某个坑洞的纬度
 
     //Map
     private MapView mMapView = null;
@@ -89,7 +101,11 @@ public class TestPoint extends AppCompatActivity {
 //            theTimecounter.setText(""+TimeinLong);
 
             //计算坑洞
-            FindHole();
+            if(istest){
+                //如果处于测试状态
+                FindHole();
+            }
+
 
 
         }
@@ -141,6 +157,8 @@ public class TestPoint extends AppCompatActivity {
             stringBuilder.append("\n地址：" + location.getAddrStr());
 
             //经纬度是Double!
+            userLatitude = location.getLatitude() ;
+            userLongitude = location.getLongitude() ;
 
             textView1.setText("经度： " + location.getLatitude());
             textView2.setText("纬度： " + location.getLongitude());
@@ -179,7 +197,26 @@ public class TestPoint extends AppCompatActivity {
         //进行对应的判定，无论怎样都会进入待机模式，模式0，直到模式1被触发
         //Make corresponding judgments, no matter what the result is, it will enter standby mode, mode 0, until trigger mode 1
         if( (theTimerEnd - theTimerStart)>=500 && (theTimerEnd - theTimerStart)<=2000 && testMode ==2){
+            //添加坑洞
             holeNum++;
+            holeLatitude = userLatitude ;
+            holeLongitude = userLongitude ;
+
+            //存储模块--------------------------------------------------------------------------------------------------------------------
+            holes[currentIndex] = new Hole(theTimerEnd - theTimerStart , Math.abs(holeStart - holeEnd) , holeLatitude ,holeLongitude);
+            holes[currentIndex].RankHole();
+            Toast.makeText(TestPoint.this,"存储一个坑洞，编号为" + currentIndex + "  等级为 " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
+            currentIndex ++ ;
+            if(currentIndex >= 145){
+                Toast.makeText(TestPoint.this,"存储即将越界",Toast.LENGTH_SHORT).show();
+                if(currentIndex >= 146){
+                    currentIndex = 0 ;
+                    Toast.makeText(TestPoint.this,"存储位置归零",Toast.LENGTH_SHORT).show();
+                }
+            }
+            //存储模块--------------------------------------------------------------------------------------------------------------------
+
+            //
             testMode = 0 ;
         }else if((holeEnd-holeStart)!=0 && testMode ==2){
             testMode = 0 ;
@@ -248,7 +285,9 @@ public class TestPoint extends AppCompatActivity {
         startTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                istest = true ;
                 Toast.makeText(TestPoint.this,"开始测试！",Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -256,7 +295,9 @@ public class TestPoint extends AppCompatActivity {
         endTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                istest = false ;
                 Toast.makeText(TestPoint.this,"测试结束",Toast.LENGTH_SHORT).show();
+
             }
         });
 

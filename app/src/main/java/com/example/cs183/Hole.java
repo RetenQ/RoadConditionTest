@@ -24,6 +24,8 @@ public class Hole {
         this.rank = 0 ;
         this.time = time ;
         this.value = value ;
+        this.Latitude = 0 ;
+        this.Longitude = 0 ;
     }
 
     //第二种构造方法，传入等级，时间，差值
@@ -31,11 +33,13 @@ public class Hole {
         this.rank = rank ;
         this.time = time ;
         this.value = value ;
+        this.Latitude = 0 ;
+        this.Longitude = 0 ;
     }
 
     //第三种，也是我们存储用的，传入所有我们需要的数据
-    public Hole(int rank , long time , float value , double Latitude , double Longitude){
-        this.rank = rank ;
+    public Hole( long time , float value , double Latitude , double Longitude){
+        this.rank = 0 ;
         this.time = time ;
         this.value = value ;
         this.Latitude = Latitude ;
@@ -97,13 +101,13 @@ public class Hole {
     //Function-----------------------------------------
     public  void  RankHole(){
         //评估坑洞等级
-        if(this.value > 1 && this.value < 4){
+        if(this.value > 0 && this.value < 1.5){
             this.rank = 1 ;
-        }else if(this.value >= 4 && this.value < 8 ){
+        }else if(this.value >= 1.5 && this.value < 2.5 ){
             this.rank = 2 ;
-        }else if(this.value >= 8 && this.value <15){
+        }else if(this.value >= 2.5 && this.value <4){
             this.rank = 3 ;
-        }else if(this.value >=15){
+        }else if(this.value >=4){
             this.rank = 4 ;
         }
     }
