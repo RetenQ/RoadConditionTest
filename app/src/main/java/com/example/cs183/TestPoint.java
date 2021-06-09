@@ -321,17 +321,17 @@ public class TestPoint extends AppCompatActivity {
     }
 
     public  void  ShowDetail(){
-        StringBuilder stringBuilder = new StringBuilder() ;
+//        StringBuilder stringBuilder = new StringBuilder() ;
         //
         if(currentIndex >=1){
-            stringBuilder.append(istest+"||") ;
-            stringBuilder.append(currentIndex+"||");
-            stringBuilder.append(holes[currentIndex].getTime()+"||");
-            stringBuilder.append(holes[currentIndex].getValue()+"||");
+//            stringBuilder.append(istest+"||") ;
+//            stringBuilder.append(currentIndex+"||");
+//            stringBuilder.append(holes[currentIndex].getTime()+"||");
+//            stringBuilder.append(holes[currentIndex].getValue()+"||");
+            textView3.setText("得到了数据");
         }else{
-            stringBuilder.append("目前暂无数据");
+            textView3.setText("目前暂无数据");
         }
 
-        textView3.setText(stringBuilder);
     }
 }

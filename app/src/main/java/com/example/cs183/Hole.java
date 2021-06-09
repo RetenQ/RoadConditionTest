@@ -115,13 +115,13 @@ public class Hole {
     //Function-----------------------------------------
     public  void  RankHole(){
         //评估坑洞等级
-        if(this.value > 0 && this.value < 1.5){
+        if(this.value > 0 && this.value < 3){
             this.rank = 1 ;
-        }else if(this.value >= 1.5 && this.value < 2.5 ){
+        }else if(this.value >= 3 && this.value < 5){
             this.rank = 2 ;
-        }else if(this.value >= 2.5 && this.value <4){
+        }else if(this.value >= 5 && this.value <7){
             this.rank = 3 ;
-        }else if(this.value >=4){
+        }else if(this.value >=8){
             this.rank = 4 ;
         }
     }
