@@ -11,9 +11,9 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/test_launcher"
+        android:icon="@mipmap/app01"
         android:label="Road_Condition_Monitor"
-        android:roundIcon="@mipmap/test_launcher"
+        android:roundIcon="@mipmap/app01"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TestPoint"></activity>
