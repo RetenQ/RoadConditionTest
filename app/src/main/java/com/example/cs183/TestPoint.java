@@ -2,7 +2,12 @@ package com.example.cs183;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -22,7 +27,26 @@ import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
 import com.baidu.mapapi.model.LatLng;
 
+import java.util.Date;
+
 public class TestPoint extends AppCompatActivity {
+
+    private SensorManager sensorManager ; //创建传感器管理器
+
+    //传感器对应数值
+    private   int holeNum  ;
+    private  int testMode ;
+    private  boolean firsttime = true ;
+
+    float zValue = 0 ;
+
+    private  float holeStart ;
+    private  float holeEnd ;
+    private  float theArrange;
+
+    private  long theTimerStart = 0 ;
+    private  long theTimerEnd = 1500 ;
+
     //Map
     private MapView mMapView = null;
     private BaiduMap mBaiduMap = null;
@@ -45,10 +69,38 @@ public class TestPoint extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test_point);
 
+        SetSensor();
         SetButton() ;
         SetTextView();
         SetMap();
     }
+
+    private SensorEventListener listener = new SensorEventListener() {
+        @Override
+        public void onSensorChanged(SensorEvent event) {
+            //得到传感器的数值
+             zValue = ((event.values[2]));
+            //
+
+            //时间计数
+//            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy年MM月dd日 HH:mm:ss");
+//            Date date = new Date(System.currentTimeMillis());
+//            long TimeinLong = date.getTime();
+//            theTimecounter.setText(""+TimeinLong);
+
+            //计算坑洞
+            FindHole();
+
+
+        }
+
+        @Override
+        public void onAccuracyChanged(Sensor sensor, int accuracy) {
+
+        }
+
+
+    };
 
     public class MyLocationListener extends BDAbstractLocationListener {
         @Override
@@ -93,6 +145,44 @@ public class TestPoint extends AppCompatActivity {
             textView1.setText("经度： " + location.getLatitude());
             textView2.setText("纬度： " + location.getLongitude());
 
+        }
+    }
+
+    public  void  SetSensor(){
+        //获取传感器管理器
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        Sensor sensor = sensorManager.getDefaultSensor(Sensor.TYPE_LINEAR_ACCELERATION);
+        sensorManager.registerListener(listener, sensor, SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    public void FindHole(){
+        //得到坑洞计数
+
+        if(testMode == 0 && zValue > 1){
+            //如果得到一个下的加速度（代表向下移动了），那么进入模式1
+            //If you get a lower acceleration (representing downward movement), then enter mode 1
+            testMode = 1 ;
+            Date dateStart = new Date(System.currentTimeMillis());
+            theTimerStart = dateStart.getTime();
+            holeStart = zValue ;
+        }
+
+        if(testMode ==1 && zValue < -1){
+            //在模式1下，如果得到一个上的加速度（代表向上移动了），那么进入模式2
+            //In mode 1, if you get an upward acceleration (representing upward movement), then enter mode 2
+            Date dateEnd = new Date(System.currentTimeMillis());
+            theTimerEnd = dateEnd.getTime();
+            holeEnd = zValue ;
+            testMode = 2 ;
+        }
+
+        //进行对应的判定，无论怎样都会进入待机模式，模式0，直到模式1被触发
+        //Make corresponding judgments, no matter what the result is, it will enter standby mode, mode 0, until trigger mode 1
+        if( (theTimerEnd - theTimerStart)>=500 && (theTimerEnd - theTimerStart)<=2000 && testMode ==2){
+            holeNum++;
+            testMode = 0 ;
+        }else if((holeEnd-holeStart)!=0 && testMode ==2){
+            testMode = 0 ;
         }
     }
 
