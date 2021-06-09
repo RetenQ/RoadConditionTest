@@ -328,6 +328,11 @@ public class TestPoint extends AppCompatActivity {
                     Toast.makeText(TestPoint.this,"没检测到",Toast.LENGTH_SHORT).show();
                 }
 
+                Intent intent = new Intent(TestPoint.this,CheckData.class);
+                //打包数组数据
+                intent.putExtra("DATA",SaveData01());
+                startActivity(intent);
+
             }
         });
 
@@ -386,6 +391,19 @@ public class TestPoint extends AppCompatActivity {
                 mBaiduMap.animateMapStatus(u);
             }
         });
+    }
+
+    public  String  SaveData01(){
+        String theSum = " " ;
+        if(holes[0] == null){
+            theSum = "null" ;
+        }else{
+            for(int k = 0 ; k < holes.length ; k ++){
+                theSum += "第"+ k +"个洞 "+":  "+holes[k].getRank()+" "+holes[k].getTime()+" "+holes[k].getValue()+"\n"+holes[k].getLatitude()+"  "+holes[k].getLongitude() + "\n\n" ;
+            }
+        }
+
+        return  theSum ;
     }
 }
 
