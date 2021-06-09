@@ -16,6 +16,7 @@ public class Hole {
         //默认构造器，不管怎么样先HoleNum++
         staticHoleNum++ ;
         this.isnull = false ;
+
         this.rank = 0 ;
         this.time = 0 ;
         this.value = 0 ;

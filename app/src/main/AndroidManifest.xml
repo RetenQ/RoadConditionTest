@@ -16,7 +16,8 @@
         android:roundIcon="@mipmap/app01"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TestPoint"></activity>
+        <activity android:name=".CheckData"></activity>
+        <activity android:name=".TestPoint" />
 
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
@@ -25,7 +26,7 @@
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"
-            android:process=":remote"></service>
+            android:process=":remote" />
         <service
             android:name="com.baidu.location.f"
             android:enabled="true"

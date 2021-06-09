@@ -21,13 +21,22 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
 
+//
+
+
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class TestPoint extends AppCompatActivity {
 
@@ -67,6 +76,15 @@ public class TestPoint extends AppCompatActivity {
     private boolean isFirstLocate = true;
     private MyLocationConfiguration.LocationMode locationMode;
 
+    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+
+    //构建Marker图标
+    BitmapDescriptor bd = BitmapDescriptorFactory
+            .fromResource(R.drawable.point);
+
+    LatLng point = new LatLng(0.0,0.0);
+
+
     //Button
     private Button startTest ;
     private Button endTest ;
@@ -76,6 +94,7 @@ public class TestPoint extends AppCompatActivity {
     private TextView textView1 ;
     private TextView textView2 ;
     private TextView textView3 ;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +224,9 @@ public class TestPoint extends AppCompatActivity {
             holes[currentIndex] = new Hole(theTimerEnd - theTimerStart , Math.abs(holeStart - holeEnd) , holeLatitude ,holeLongitude);
             holes[currentIndex].RankHole();
             Toast.makeText(TestPoint.this,"存储一个坑洞，编号为" + currentIndex + "  等级为 " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
+            drawTip(holeLatitude,holeLongitude,bd);
+            Toast.makeText(TestPoint.this,"成功标记",Toast.LENGTH_SHORT).show();
+
             currentIndex ++ ;
             if(currentIndex >= 145){
                 Toast.makeText(TestPoint.this,"存储即将越界",Toast.LENGTH_SHORT).show();
@@ -251,6 +273,8 @@ public class TestPoint extends AppCompatActivity {
         //开启地图定位图层
         mLocationClient.start();
 
+
+
     }
 
     protected void onResume() {
@@ -287,6 +311,8 @@ public class TestPoint extends AppCompatActivity {
             public void onClick(View v) {
                 istest = true ;
                 Toast.makeText(TestPoint.this,"开始测试！",Toast.LENGTH_SHORT).show();
+                drawTip(26.06374,119.19198,bd);
+                drawTip(userLatitude,userLongitude,bd);
 
 
             }
@@ -296,7 +322,11 @@ public class TestPoint extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 istest = false ;
-                Toast.makeText(TestPoint.this,"测试结束",Toast.LENGTH_SHORT).show();
+                if(holes.length >=1 && holes[0] != null){
+                    Toast.makeText(TestPoint.this,"测试结束，成功标记了： " + holes[0].getHoleNum() + " 个点",Toast.LENGTH_SHORT).show();
+                }else{
+                    Toast.makeText(TestPoint.this,"没检测到",Toast.LENGTH_SHORT).show();
+                }
 
             }
         });
@@ -334,4 +364,28 @@ public class TestPoint extends AppCompatActivity {
         }
 
     }
+
+    //标点方法
+    public void drawTip(double a,double b,BitmapDescriptor bd)
+    {
+         point = new LatLng(a,b);
+        OverlayOptions option1 =  new MarkerOptions()
+                .position(point) //根据每个点的经纬度信息，进行定位
+                .icon(bd);
+        options.add(option1);
+        mBaiduMap.addOverlays( options);
+        mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {  //设置地图加载监听
+            @Override
+            public void onMapLoaded() {
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder = builder.include(point);
+                LatLngBounds latlngBounds = builder.build();
+                //改变地图某些状态需要MapStatusUpdate
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(latlngBounds,mMapView.getWidth(),mMapView.getHeight());
+                mBaiduMap.animateMapStatus(u);
+            }
+        });
+    }
 }
+
