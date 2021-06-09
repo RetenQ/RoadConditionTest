@@ -10,6 +10,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +22,11 @@ import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
@@ -77,6 +80,8 @@ public class TestPoint extends AppCompatActivity {
     private MyLocationConfiguration.LocationMode locationMode;
 
     List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+
+    private  String showText = " " ;
 
     //构建Marker图标
     BitmapDescriptor bd = BitmapDescriptorFactory
@@ -224,7 +229,7 @@ public class TestPoint extends AppCompatActivity {
             holes[currentIndex] = new Hole(theTimerEnd - theTimerStart , Math.abs(holeStart - holeEnd) , holeLatitude ,holeLongitude);
             holes[currentIndex].RankHole();
             Toast.makeText(TestPoint.this,"存储一个坑洞，编号为" + currentIndex + "  等级为 " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
-            drawTip(holeLatitude,holeLongitude,bd);
+            drawTip(holeLatitude,holeLongitude,bd,""+"测试显示： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
             Toast.makeText(TestPoint.this,"成功标记",Toast.LENGTH_SHORT).show();
 
             currentIndex ++ ;
@@ -311,8 +316,8 @@ public class TestPoint extends AppCompatActivity {
             public void onClick(View v) {
                 istest = true ;
                 Toast.makeText(TestPoint.this,"开始测试！",Toast.LENGTH_SHORT).show();
-                drawTip(26.06374,119.19198,bd);
-                drawTip(userLatitude,userLongitude,bd);
+                drawTip(26.06374,119.19198,bd,"test1");
+                drawTip(userLatitude,userLongitude,bd,"test2");
 
 
             }
@@ -371,9 +376,10 @@ public class TestPoint extends AppCompatActivity {
     }
 
     //标点方法
-    public void drawTip(double a,double b,BitmapDescriptor bd)
+    public void drawTip(double a,double b,BitmapDescriptor bd,String str)
     {
-         point = new LatLng(a,b);
+        point = new LatLng(a,b);
+        showText = str ;
         OverlayOptions option1 =  new MarkerOptions()
                 .position(point) //根据每个点的经纬度信息，进行定位
                 .icon(bd);
@@ -391,6 +397,31 @@ public class TestPoint extends AppCompatActivity {
                 mBaiduMap.animateMapStatus(u);
             }
         });
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // 构建一个需要显示的view，我这里只是一个textview，也可以是其他的布局
+                TextView tv = new TextView(TestPoint.this);
+                tv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                tv.setBackgroundResource(R.drawable.map1);
+                tv.setText(showText);
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(tv);
+                InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick() {
+                        //隐藏infowindow
+                        mBaiduMap.hideInfoWindow();
+                    }
+                };
+                // －130表示的是y轴的偏移量
+                InfoWindow infoWindow =new InfoWindow(bitmapDescriptor,marker.getPosition(),-110,listener);
+                //通过百度地图来显示view
+                mBaiduMap.showInfoWindow(infoWindow);
+
+                return false;
+            }
+        });
+
     }
 
     public  String  SaveData01(){
