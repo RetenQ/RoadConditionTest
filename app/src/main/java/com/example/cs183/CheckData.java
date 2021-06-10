@@ -3,6 +3,7 @@ package com.example.cs183;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,6 +17,8 @@ public class CheckData extends AppCompatActivity {
     private Button Nosave;
 
     private TextView textView1 ;
+
+    private MyDatabaseHelper dbHelper;
 
 
     @Override
@@ -52,6 +55,9 @@ public class CheckData extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(CheckData.this , "不保存数据",Toast.LENGTH_SHORT).show();
+//                SQLiteDatabase db = dbHelper.getWritableDatabase();
+//                db.delete("HoleDatabase1","id > ?",new String[]{"0"});
+                Toast.makeText(CheckData.this , "数据清除",Toast.LENGTH_SHORT).show();
 
                 Intent intent = null ;
                 intent = new Intent(CheckData.this , TestPoint.class);
