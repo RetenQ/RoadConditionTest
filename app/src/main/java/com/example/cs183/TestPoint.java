@@ -375,7 +375,7 @@ public class TestPoint extends AppCompatActivity {
 
     }
 
-    //标点方法
+    //标点方法  包含点击该点触发信息的功能
     public void drawTip(double a,double b,BitmapDescriptor bd,String str)
     {
         point = new LatLng(a,b);
@@ -426,14 +426,13 @@ public class TestPoint extends AppCompatActivity {
 
     public  String  SaveData01(){
         String theSum = " " ;
-        if(holes[0] == null){
-            theSum = "null" ;
-        }else{
             for(int k = 0 ; k < holes.length ; k ++){
-                theSum += "第"+ k +"个洞 "+":  "+holes[k].getRank()+" "+holes[k].getTime()+" "+holes[k].getValue()+"\n"+holes[k].getLatitude()+"  "+holes[k].getLongitude() + "\n\n" ;
+                if(holes[k]!= null){
+                    theSum += "第"+ k +"个洞 "+":  "+holes[k].getRank()+" "+holes[k].getTime()+" "+holes[k].getValue()+"\n"+holes[k].getLatitude()+"  "+holes[k].getLongitude() + "\n\n" ;
+                }else{
+                    Toast.makeText(TestPoint.this,"完毕",Toast.LENGTH_SHORT).show();
+                }
             }
-        }
-
         return  theSum ;
     }
 }
