@@ -214,7 +214,10 @@ public class MainActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                    UpdateData();
+                //--------------------
+                //数据库保存数据的方法，并且还有根据这个数据来画点的办法
+                //--------------------
+                UpdateData(); //这个只是测试我们的猜想是否可行
             }
         });
 

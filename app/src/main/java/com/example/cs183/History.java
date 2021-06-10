@@ -37,6 +37,9 @@ public class History extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(History.this , "更新数据，未完成，等待数据库模块",Toast.LENGTH_SHORT).show();
+                //--------------------
+                //数据库更新数据的方法，把数据展示在这一块
+                //--------------------
             }
         });
 
@@ -54,6 +57,9 @@ public class History extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(History.this , "清除所有历史记录,未开发",Toast.LENGTH_SHORT).show();
+                //--------------------
+                //数据库清除数据的方法
+                //--------------------
             }
         });
     }

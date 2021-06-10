@@ -333,10 +333,17 @@ public class TestPoint extends AppCompatActivity {
                     Toast.makeText(TestPoint.this,"没检测到",Toast.LENGTH_SHORT).show();
                 }
 
+                //--------------------
+                //数据库保存数据的方法，以防万一在这里也做一次数据保存
+                //--------------------
+
+
+                //下面是利用Intent在活动间传递数据的方法，这些数据重启之后就会丢失，请注意------------------------------------------
                 Intent intent = new Intent(TestPoint.this,CheckData.class);
                 //打包数组数据
                 intent.putExtra("DATA",SaveData01());
                 startActivity(intent);
+                //-----------------------------------------------------------所以这个只是测试一下保存模块----------------------------
 
             }
         });
