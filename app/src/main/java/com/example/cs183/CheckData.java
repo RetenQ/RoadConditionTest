@@ -29,7 +29,6 @@ public class CheckData extends AppCompatActivity {
         SetButton();
         SetTextView(text);
 
-
     }
 
     public void  SetButton(){
@@ -65,4 +64,6 @@ public class CheckData extends AppCompatActivity {
         textView1 = (TextView) findViewById(R.id.CD_TV_DATA );
         textView1.setText(text);
     }
+
+
 }

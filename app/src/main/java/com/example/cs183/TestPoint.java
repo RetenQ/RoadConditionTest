@@ -2,8 +2,10 @@ package com.example.cs183;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
+import android.database.sqlite.SQLiteDatabase;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -82,6 +84,9 @@ public class TestPoint extends AppCompatActivity {
     List<OverlayOptions> options = new ArrayList<OverlayOptions>();
 
     private  String showText = " " ;
+
+    //数据库
+    private MyDatabaseHelper dbHelper;
 
     //构建Marker图标
     BitmapDescriptor bd = BitmapDescriptorFactory
@@ -335,6 +340,9 @@ public class TestPoint extends AppCompatActivity {
 
                 //--------------------
                 //数据库保存数据的方法，以防万一在这里也做一次数据保存
+                Toast.makeText(TestPoint.this,"尝试将数据备份至数据库",Toast.LENGTH_SHORT).show();
+                GetHoles();
+                Toast.makeText(TestPoint.this,"数据库备份完成！",Toast.LENGTH_SHORT).show();
                 //--------------------
 
 
@@ -441,6 +449,41 @@ public class TestPoint extends AppCompatActivity {
                 }
             }
         return  theSum ;
+    }
+
+    //数据库存储方法
+    public void GetHoles(){
+        for(int j = 0 ; j <= 149 ; j++){
+
+            if(holes[0] == null){
+                Toast.makeText(TestPoint.this,"没东西存个锤子？",Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            //
+            if(holes[j] == null  || j == 148){
+                Toast.makeText(TestPoint.this,"到达最后的数据点",Toast.LENGTH_SHORT).show();
+                break;
+            }
+
+            //创建数据库
+            dbHelper = new MyDatabaseHelper(this,"HoleDatabase.db",null,1);
+            //写入数据预备
+            dbHelper.getWritableDatabase();
+            SQLiteDatabase db = dbHelper.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            //将数据放入表的各个属性中
+            values.put("rank", holes[j].getRank()); //左字符串为表的属性，右字符串为对应的值
+            values.put("time", holes[j] .getTime());
+            values.put("value",holes[j] .getValue());
+            values.put("Latitude", holes[j] .getLatitude());
+            values.put("Longitude", holes[j].getLongitude());
+
+            //插入表
+            db.insert("HoleDatabase1", null, values); //holedatabase为数据库表名
+
+        }
     }
 }
 
