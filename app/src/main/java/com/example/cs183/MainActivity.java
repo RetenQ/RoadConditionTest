@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,11 +18,20 @@ import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.InfoWindow;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
+import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.MyLocationConfiguration;
 import com.baidu.mapapi.map.MyLocationData;
+import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
+import com.baidu.mapapi.model.LatLngBounds;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     //地图系列
@@ -31,6 +41,15 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean isFirstLocate = true;
     private MyLocationConfiguration.LocationMode locationMode;
+
+    private boolean hasEnterTest = false ;
+
+    //标点系列
+    private String showText = " " ;
+    LatLng point = new LatLng(0,0) ;
+    List<OverlayOptions> options = new ArrayList<OverlayOptions>();
+    BitmapDescriptor bd = BitmapDescriptorFactory
+            .fromResource(R.drawable.point);
 
     //经纬度系列
     //private LocationManager locationManager;
@@ -163,8 +182,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-
-    public  void  SetButton(){
+    public void  SetButton(){
         enter = (Button) findViewById(R.id.AC1_BT_enterTestPoint) ;
         history = (Button) findViewById(R.id.AC1_BT_enterHistory) ;
         update = (Button) findViewById(R.id.AC1_BT_updateData) ;
@@ -174,6 +192,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this,"Enter",Toast.LENGTH_SHORT).show();
+                hasEnterTest = true ;
                 //跳转
                 Intent intent = null ;
                 intent = new Intent(MainActivity.this , TestPoint.class);
@@ -192,15 +211,76 @@ public class MainActivity extends AppCompatActivity {
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"数据更新，等更新组整完",Toast.LENGTH_SHORT).show();
+                    UpdateData();
             }
         });
 
     }
 
-    public  void  SetTexView(){
+    public void  SetTexView(){
         textView1 = (TextView) findViewById(R.id.AC1_TV_01);
         textView2 = (TextView) findViewById(R.id.AC1_TV_02);
+    }
+
+    public void  UpdateData(){
+        Toast.makeText(MainActivity.this,"正在更新数据",Toast.LENGTH_SHORT).show();
+        drawTip(21.11,110.11,bd,"test1");
+        drawTip(26,120,bd,"test2") ;
+        for(int i = 0 ; i <=30 ; i++){
+            drawTip(21+i,110 - i,bd,"loopTest: "+i);
+        }
+
+        for(int j = 0 ; j <=30 ; j++){
+            drawTip(20-j,100 - j,bd,"loopTest: "+ j);
+        }
+
+        Toast.makeText(MainActivity.this,"完成",Toast.LENGTH_SHORT).show();
+    }
+
+    public void drawTip(double a,double b,BitmapDescriptor bd,String str) {
+        point = new LatLng(a,b);
+        showText = str ;
+        OverlayOptions option1 =  new MarkerOptions()
+                .position(point) //根据每个点的经纬度信息，进行定位
+                .icon(bd);
+        options.add(option1);
+        mBaiduMap.addOverlays(options);
+        mBaiduMap.setOnMapLoadedCallback(new BaiduMap.OnMapLoadedCallback() {  //设置地图加载监听
+            @Override
+            public void onMapLoaded() {
+
+                LatLngBounds.Builder builder = new LatLngBounds.Builder();
+                builder = builder.include(point);
+                LatLngBounds latlngBounds = builder.build();
+                //改变地图某些状态需要MapStatusUpdate
+                MapStatusUpdate u = MapStatusUpdateFactory.newLatLngBounds(latlngBounds,mMapView.getWidth(),mMapView.getHeight());
+                mBaiduMap.animateMapStatus(u);
+            }
+        });
+        mBaiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // 构建一个需要显示的view，我这里只是一个textview，也可以是其他的布局
+                TextView tv = new TextView(MainActivity.this);
+                tv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+                tv.setBackgroundResource(R.drawable.map1);
+                tv.setText(showText);
+                BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(tv);
+                InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {
+                    @Override
+                    public void onInfoWindowClick() {
+                        //隐藏infowindow
+                        mBaiduMap.hideInfoWindow();
+                    }
+                };
+                // －130表示的是y轴的偏移量
+                InfoWindow infoWindow =new InfoWindow(bitmapDescriptor,marker.getPosition(),-110,listener);
+                //通过百度地图来显示view
+                mBaiduMap.showInfoWindow(infoWindow);
+                return false;
+            }
+        });
+
     }
 
 }

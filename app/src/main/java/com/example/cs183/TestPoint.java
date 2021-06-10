@@ -348,6 +348,7 @@ public class TestPoint extends AppCompatActivity {
 
                 Intent intent = null ;
                 intent = new Intent(TestPoint.this ,MainActivity.class);
+                intent.putExtra("TEST",true) ;
                 startActivity(intent);
             }
         });
@@ -376,8 +377,7 @@ public class TestPoint extends AppCompatActivity {
     }
 
     //标点方法  包含点击该点触发信息的功能
-    public void drawTip(double a,double b,BitmapDescriptor bd,String str)
-    {
+    public void drawTip(double a,double b,BitmapDescriptor bd,String str) {
         point = new LatLng(a,b);
         showText = str ;
         OverlayOptions option1 =  new MarkerOptions()
