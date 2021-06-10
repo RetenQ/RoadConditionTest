@@ -109,7 +109,7 @@ public class MainActivity extends AppCompatActivity {
                BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.map1);
 
             // 定位模式 地图SDK支持三种定位模式：NORMAL（普通态）, FOLLOWING（跟随态）, COMPASS（罗盘态）
-               locationMode = MyLocationConfiguration.LocationMode.NORMAL;
+               locationMode = MyLocationConfiguration.LocationMode.FOLLOWING;
             // 定位模式、是否开启方向、设置自定义定位图标、精度圈填充颜色以及精度圈边框颜色5个属性（此处只设置了前三个）。
                MyLocationConfiguration mLocationConfiguration = new MyLocationConfiguration(locationMode,true,mCurrentMarker);
             // 使自定义的配置生效
@@ -204,7 +204,10 @@ public class MainActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"HistoryMode,开发中",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"进入历史记录管理",Toast.LENGTH_SHORT).show();
+                Intent intent = null ;
+                intent = new Intent(MainActivity.this , History.class);
+                startActivity(intent);
             }
         });
 
@@ -263,7 +266,7 @@ public class MainActivity extends AppCompatActivity {
                 // 构建一个需要显示的view，我这里只是一个textview，也可以是其他的布局
                 TextView tv = new TextView(MainActivity.this);
                 tv.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
-                tv.setBackgroundResource(R.drawable.map1);
+                tv.setBackgroundResource(R.drawable.white);
                 tv.setText(showText);
                 BitmapDescriptor bitmapDescriptor = BitmapDescriptorFactory.fromView(tv);
                 InfoWindow.OnInfoWindowClickListener listener = new InfoWindow.OnInfoWindowClickListener() {

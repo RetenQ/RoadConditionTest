@@ -17,7 +17,7 @@ public class CheckData extends AppCompatActivity {
         Intent intent = getIntent();
         String text = intent.getStringExtra("DATA") ;
 
-        textView1 = (TextView) findViewById(R.id.CD_TV1) ;
+        textView1 = (TextView) findViewById(R.id.CD_TV_DATA );
 
         textView1.setText(text);
     }

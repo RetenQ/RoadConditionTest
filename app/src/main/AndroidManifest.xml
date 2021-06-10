@@ -11,12 +11,13 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/app03"
-        android:label="Road_Condition_Monitor"
-        android:roundIcon="@mipmap/app03"
+        android:icon="@drawable/app06"
+        android:label="路面平整度（Beta测试版）"
+        android:roundIcon="@drawable/app06"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CheckData"></activity>
+        <activity android:name=".History"></activity>
+        <activity android:name=".CheckData" />
         <activity android:name=".TestPoint" />
 
         <meta-data

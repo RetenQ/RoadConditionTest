@@ -165,7 +165,7 @@ public class TestPoint extends AppCompatActivity {
             BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.map1);
 
             // 定位模式 地图SDK支持三种定位模式：NORMAL（普通态）, FOLLOWING（跟随态）, COMPASS（罗盘态）
-            locationMode = MyLocationConfiguration.LocationMode.NORMAL;
+            locationMode = MyLocationConfiguration.LocationMode.FOLLOWING;
             // 定位模式、是否开启方向、设置自定义定位图标、精度圈填充颜色以及精度圈边框颜色5个属性（此处只设置了前三个）。
             MyLocationConfiguration mLocationConfiguration = new MyLocationConfiguration(locationMode,true,mCurrentMarker);
             // 使自定义的配置生效
