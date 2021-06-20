@@ -27,7 +27,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="保存并退出"
+                android:text="Save"
                 android:textSize="25dp"
                 />
 
@@ -37,7 +37,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="放弃该数据"
+                android:text="Clear"
                 android:textSize="25dp"
                 />
 
@@ -46,14 +46,14 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_weight="1.5"
             >
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:text="       下面是这次检测到的数据，请核对并且选择是否保存"
-                android:textSize="20dp"
+                android:text="       The following is the data detected this time, please check and choose whether to save"
+                android:textSize="17dp"
                 android:textColor="#4F48FF"
                 />
 

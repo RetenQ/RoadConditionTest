@@ -27,6 +27,7 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:orientation="vertical"
+        android:background="@drawable/bk3"
         >
 
         <LinearLayout
@@ -39,7 +40,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="进入测试"
+                android:text="TestMode"
                 android:textSize="17dp"
                 android:textColor="#000000"
                 android:gravity="center"
@@ -51,7 +52,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="历史记录"
+                android:text="history"
                 android:textSize="17dp"
                 android:textColor="#000000"
                 android:gravity="center"
@@ -63,7 +64,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="更新数据"
+                android:text="Update"
                 android:textSize="17dp"
                 android:textColor="#000000"
                 android:gravity="center"
@@ -78,6 +79,7 @@
                 android:layout_height="0dp"
                 android:layout_weight="2"
                 android:orientation="vertical"
+                android:background="@drawable/bk3"
                 >
                 <TextView
                     android:id="@+id/AC1_TV_01"
@@ -85,7 +87,7 @@
                     android:layout_height="wrap_content"
                     android:text="测试1"
                     android:textSize="20dp"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     />
 
                 <TextView
@@ -94,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:text="测试2"
                     android:textSize="20dp"
-                    android:textColor="#000000"
+                    android:textColor="#FFFFFF"
                     />
 
 

@@ -54,7 +54,7 @@ public class TestPoint extends AppCompatActivity {
     private  int testMode ;
     private  boolean firsttime = true ;
 
-        //利用数组存储
+    //利用数组存储
     private  Hole[] holes = new Hole[150] ;
     private  int currentIndex = 0 ;
 
@@ -121,7 +121,7 @@ public class TestPoint extends AppCompatActivity {
         @Override
         public void onSensorChanged(SensorEvent event) {
             //得到传感器的数值
-             zValue = ((event.values[2]));
+            zValue = ((event.values[2]));
             //
 
             //时间计数
@@ -188,8 +188,8 @@ public class TestPoint extends AppCompatActivity {
             userLatitude = location.getLatitude() ;
             userLongitude = location.getLongitude() ;
 
-            textView1.setText("经度： " + location.getLatitude());
-            textView2.setText("纬度： " + location.getLongitude());
+            textView1.setText("Latitude： " + location.getLatitude());
+            textView2.setText("Longitude： " + location.getLongitude());
 
         }
     }
@@ -233,16 +233,16 @@ public class TestPoint extends AppCompatActivity {
             //存储模块--------------------------------------------------------------------------------------------------------------------
             holes[currentIndex] = new Hole(theTimerEnd - theTimerStart , Math.abs(holeStart - holeEnd) , holeLatitude ,holeLongitude);
             holes[currentIndex].RankHole();
-            Toast.makeText(TestPoint.this,"存储一个坑洞，编号为" + currentIndex + "  等级为 " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
-            drawTip(holeLatitude,holeLongitude,bd,""+"测试显示： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
-            Toast.makeText(TestPoint.this,"成功标记",Toast.LENGTH_SHORT).show();
+            Toast.makeText(TestPoint.this,"Get A Hole! Number:" + currentIndex + "  Rank: " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
+            drawTip(holeLatitude,holeLongitude,bd,""+"Info： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
+            Toast.makeText(TestPoint.this,"Mark It On Map",Toast.LENGTH_SHORT).show();
 
             currentIndex ++ ;
             if(currentIndex >= 145){
-                Toast.makeText(TestPoint.this,"存储即将越界",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Warning of Index",Toast.LENGTH_SHORT).show();
                 if(currentIndex >= 146){
                     currentIndex = 0 ;
-                    Toast.makeText(TestPoint.this,"存储位置归零",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TestPoint.this,"Back To Zero",Toast.LENGTH_SHORT).show();
                 }
             }
 
@@ -320,7 +320,7 @@ public class TestPoint extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 istest = true ;
-                Toast.makeText(TestPoint.this,"开始测试！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Testing Hole",Toast.LENGTH_SHORT).show();
                 drawTip(26.06374,119.19198,bd,"test1");
 
                 holeNum++;
@@ -330,10 +330,10 @@ public class TestPoint extends AppCompatActivity {
                 //存储模块--------------------------------------------------------------------------------------------------------------------
                 holes[currentIndex] = new Hole(theTimerEnd - theTimerStart , Math.abs(holeStart - holeEnd) , holeLatitude ,holeLongitude);
                 holes[currentIndex].RankHole();
-                Toast.makeText(TestPoint.this,"存储一个坑洞，编号为" + currentIndex + "  等级为 " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
-                drawTip(holeLatitude,holeLongitude,bd,""+"测试显示： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
-                Toast.makeText(TestPoint.this,"成功标记",Toast.LENGTH_SHORT).show();
-                drawTip(userLatitude,userLongitude,bd,"test2");
+                Toast.makeText(TestPoint.this,"Get A Hole,Number: " + currentIndex + "  Rank: " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
+                drawTip(holeLatitude,holeLongitude,bd,""+"Info： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
+                Toast.makeText(TestPoint.this,"Mark hole in Map",Toast.LENGTH_SHORT).show();
+                drawTip(userLatitude,userLongitude,bd,""+"Info： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
 
 
             }
@@ -344,16 +344,16 @@ public class TestPoint extends AppCompatActivity {
             public void onClick(View v) {
                 istest = false ;
                 if(holes.length >=1 && holes[0] != null){
-                    Toast.makeText(TestPoint.this,"测试结束，成功标记了： " + holes[0].getHoleNum() + " 个点",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TestPoint.this,"Test is Over ,we has got： " + holes[0].getHoleNum() + " (Sum of holes)",Toast.LENGTH_SHORT).show();
                 }else{
-                    Toast.makeText(TestPoint.this,"没检测到",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TestPoint.this,"You have not got anything!",Toast.LENGTH_SHORT).show();
                 }
 
                 //--------------------
                 //数据库保存数据的方法，以防万一在这里也做一次数据保存
-                Toast.makeText(TestPoint.this,"尝试将数据备份至数据库",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Try to Save the Data to the DataBase",Toast.LENGTH_SHORT).show();
                 GetHoles();
-                Toast.makeText(TestPoint.this,"数据库备份完成！",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Finish it!",Toast.LENGTH_SHORT).show();
                 //--------------------
 
 
@@ -370,7 +370,7 @@ public class TestPoint extends AppCompatActivity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(TestPoint.this,"返回",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Back",Toast.LENGTH_SHORT).show();
 
                 Intent intent = null ;
                 intent = new Intent(TestPoint.this ,MainActivity.class);
@@ -395,9 +395,9 @@ public class TestPoint extends AppCompatActivity {
 //            stringBuilder.append(currentIndex+"||");
 //            stringBuilder.append(holes[currentIndex].getTime()+"||");
 //            stringBuilder.append(holes[currentIndex].getValue()+"||");
-            textView3.setText("得到了数据");
+            textView3.setText("Has Got some information");
         }else{
-            textView3.setText("目前暂无数据");
+            textView3.setText("No Information");
         }
 
     }
@@ -452,12 +452,12 @@ public class TestPoint extends AppCompatActivity {
 
     public  String  SaveData01(){
         String theSum = " " ;
-            for(int k = 0 ; k < holes.length ; k ++){
-                if(holes[k]!= null){
-                    theSum += "第"+ k +"个洞 "+":  "+holes[k].getRank()+" "+holes[k].getTime()+" "+holes[k].getValue()+"\n"+holes[k].getLatitude()+"  "+holes[k].getLongitude() + "\n\n" ;
-                }else{
-                }
+        for(int k = 0 ; k < holes.length ; k ++){
+            if(holes[k]!= null){
+                theSum += "the "+ k +"th"+":  "+holes[k].getRank()+" "+holes[k].getTime()+" "+holes[k].getValue()+"\n"+holes[k].getLatitude()+"  "+holes[k].getLongitude() + "\n\n" ;
+            }else{
             }
+        }
         return  theSum ;
     }
 
@@ -465,14 +465,15 @@ public class TestPoint extends AppCompatActivity {
     public void GetHoles(){
         for(int j = 0 ; j <= 149 ; j++){
 
+
             if(holes[0] == null){
-                Toast.makeText(TestPoint.this,"没东西",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Nothing",Toast.LENGTH_SHORT).show();
                 break;
             }
 
-            //
+
             if(holes[j] == null  || j == 148){
-                Toast.makeText(TestPoint.this,"到达最后的数据点",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"Get the Final Data ,Saving",Toast.LENGTH_SHORT).show();
                 break;
             }
 
@@ -492,6 +493,9 @@ public class TestPoint extends AppCompatActivity {
 
             //插入表
             db.insert("HoleDatabase", null, values); //holedatabase为数据库表名
+
+
+
 
         }
     }

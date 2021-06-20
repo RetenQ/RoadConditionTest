@@ -32,14 +32,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@drawable/bk5"
+            >
             <Button
                 android:id="@+id/TP_BT_startTest"
                 android:layout_width="0dp"
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="开始测试"
+                android:text="Start"
                 android:textSize="17dp"
                 android:textColor="#000000"
                 android:gravity="center"
@@ -51,7 +53,7 @@
                 android:layout_weight="1"
                 android:layout_height="wrap_content"
                 android:layout_margin="3dp"
-                android:text="结束测试"
+                android:text="Over"
                 android:textSize="17dp"
                 android:textColor="#000000"
                 android:gravity="center"
@@ -78,6 +80,7 @@
             android:layout_height="0dp"
             android:layout_weight="2"
             android:orientation="vertical"
+            android:background="@drawable/bk5"
             >
             <TextView
                 android:id="@+id/TP_TV_01"

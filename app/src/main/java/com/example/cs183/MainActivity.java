@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.location.LocationManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +36,6 @@ import com.baidu.mapapi.model.LatLngBounds;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.baidu.location.e.a.k;
-
 public class MainActivity extends AppCompatActivity {
     //地图系列
     private MapView mMapView = null;
@@ -60,7 +59,10 @@ public class MainActivity extends AppCompatActivity {
             .fromResource(R.drawable.point);
 
     //经纬度系列
-    //private LocationManager locationManager;
+    private LocationManager locationManager;
+    private double userLati ;
+    private double userLongi ;
+
 
     //Button
     private Button enter ;
@@ -71,8 +73,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView1;
     private TextView textView2;
 
-    double[] readLati1=new double[100];
-    double[] readLongti1=new double[100];
+//    double[] readLati=new double[100];
+//    double[] readLongti=new double[100];
 
 
     @Override
@@ -116,25 +118,27 @@ public class MainActivity extends AppCompatActivity {
                     .direction(location.getDirection()).latitude(location.getLatitude())
                     .longitude(location.getLongitude()).build();
             mBaiduMap.setMyLocationData(locData);
-               BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.map1);
+            BitmapDescriptor mCurrentMarker = BitmapDescriptorFactory.fromResource(R.drawable.map1);
 
             // 定位模式 地图SDK支持三种定位模式：NORMAL（普通态）, FOLLOWING（跟随态）, COMPASS（罗盘态）
-               locationMode = MyLocationConfiguration.LocationMode.FOLLOWING;
+            locationMode = MyLocationConfiguration.LocationMode.FOLLOWING;
             // 定位模式、是否开启方向、设置自定义定位图标、精度圈填充颜色以及精度圈边框颜色5个属性（此处只设置了前三个）。
-               MyLocationConfiguration mLocationConfiguration = new MyLocationConfiguration(locationMode,true,mCurrentMarker);
+            MyLocationConfiguration mLocationConfiguration = new MyLocationConfiguration(locationMode,true,mCurrentMarker);
             // 使自定义的配置生效
             //   mBaiduMap.setMyLocationConfiguration(mLocationConfiguration);
             StringBuilder stringBuilder = new StringBuilder();
             stringBuilder.append("\n经度：" + location.getLatitude());
+            userLati = location.getLatitude() ;
             stringBuilder.append("\n纬度：" + location.getLongitude());
+            userLongi = location.getLongitude() ;
             stringBuilder.append("\n国家：" + location.getCountry());
             stringBuilder.append("\n城市：" + location.getCity());
             stringBuilder.append("\n区：" + location.getDistrict());
             stringBuilder.append("\n街道：" + location.getStreet());
             stringBuilder.append("\n地址：" + location.getAddrStr());
 
-            textView1.setText("经度： " + location.getLatitude());
-            textView2.setText("纬度： " + location.getLongitude());
+            textView1.setText("Latitude： " + location.getLatitude());
+            textView2.setText("Longitude： " + location.getLongitude());
         }
     }
 
@@ -214,16 +218,17 @@ public class MainActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"加载数据库数据",Toast.LENGTH_SHORT).show();
+                Intent intent = null ;
+                intent = new Intent(MainActivity.this , History.class);
+                startActivity(intent);
 
-                readLongitude(); //double[] readLongti=new double[100];
-                readLatitude() ; // double[] readLati=new double[100];
 
-                Toast.makeText(MainActivity.this,"加载完成",Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this,"Reading the Data From DataBase",Toast.LENGTH_SHORT).show();
 
-//                Intent intent = null ;
-//                intent = new Intent(MainActivity.this , History.class);
-//                startActivity(intent);
+                Toast.makeText(MainActivity.this,"Finish",Toast.LENGTH_SHORT).show();
+
+
+
             }
         });
 
@@ -231,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //--------------------
-                //数据库保存数据的方法，并且还有根据这个数据来画点的办法
+                //数据库读取数据的方法，并且还有根据这个数据来画点的办法
                 //--------------------
                 UpdateData(); //这个只是测试我们的猜想是否可行
             }
@@ -245,18 +250,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void  UpdateData(){
-        Toast.makeText(MainActivity.this,"正在更新数据",Toast.LENGTH_SHORT).show();
-        drawTip(21.11,110.11,bd,"test1");
-        drawTip(26,120,bd,"test2") ;
+        Toast.makeText(MainActivity.this,"Drawing it on Map",Toast.LENGTH_SHORT).show();
         for(int i = 0 ; i <=30 ; i++){
-            drawTip(21+i,110 - i,bd,"loopTest: "+i);
+            drawTip(userLati-i*0.0001,userLongi+i*0.0001,bd,"loopTest: "+i);
         }
 
         for(int j = 0 ; j <=30 ; j++){
-            drawTip(20-j,100 - j,bd,"loopTest: "+ j);
+            drawTip(userLati-j*0.0001,userLongi+j*0.0001,bd,"loopTest: "+ j);
         }
 
-        Toast.makeText(MainActivity.this,"完成",Toast.LENGTH_SHORT).show();
+        Toast.makeText(MainActivity.this,"Finish Test",Toast.LENGTH_SHORT).show();
     }
 
     public void drawTip(double a,double b,BitmapDescriptor bd,String str) {
@@ -307,42 +310,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     //单独分别读取纬度 latitude
-    public void   readLatitude(){
+    public float[] readLatitude(){
         Cursor c = db.rawQuery("SELECT * FROM " + "HoleDatabase", null);
-//        double[] readLati=new double[2];
-//
-//        for (int j = 0; j < readLati.length; j++) {
-//            if (c.moveToFirst()) {
-//                readLati[j] = 0 ;
-//            }
-//        }
-//
-//        //一行一行读取数据
-//        for (int i = 0; i < readLati.length; i++) {
-//            if (c.moveToFirst()) {
-//                readLati[i] = c.getDouble(3);
-//            }
-//        }
-//
-//        return readLati;
+        float[] readLati=new float[c.getCount()-1];
+
+        //一行一行读取数据
+
+        if(c.moveToFirst()){
+            for(int j=0;j<c.getCount();j++){
+                readLati[j]=c.getFloat(c.getColumnIndex("Latitude"));
+                c.moveToNext();
+            }
+        }
+
+
+
+
+        return readLati;
     }
 
 
-    //单独分别读取纬度 Longitude
-    public void readLongitude(){
+    //单独分别读取经度 Longitude
+    public float[] readLongitude(){
         Cursor c = db.rawQuery("SELECT * FROM " + "HoleDatabase", null);
-//        double[] readLongti=new double[2];
-//        for (int j = 0; j < readLongti.length; j++) {
-//            readLongti1[j] = 0 ;
-//        }
-//        //一行一行读取数据
-//        for (int i = 0; i < readLongti.length; i++) {
-//            if (c.moveToFirst()) {
-//                readLongti[i] = c.getDouble(4);
-//            }
-//        }
-//
-//        return readLongti;
+        float[] readLongti=new float[c.getCount()-1];
+
+        //一行一行读取数据
+
+        if(c.moveToFirst()){
+            for(int j=0;j<c.getCount();j++){
+                readLongti[j]=c.getFloat(c.getColumnIndex("Longtitude"));
+                c.moveToNext();
+            }
+        }
+
+        return readLongti;
 
     }
 

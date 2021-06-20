@@ -17,26 +17,29 @@
 
         <Button
             android:id="@+id/HS_BT_Updata"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="更新数据"
-            android:textSize="30dp"
+            android:text="Update"
+            android:textSize="25dp"
             />
 
         <Button
             android:id="@+id/HS_BT_TEST1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="测试1"
-            android:textSize="30dp"
+            android:text="Back"
+            android:textSize="25dp"
             />
 
         <Button
             android:id="@+id/HS_BT_TEST2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="wrap_content"
-            android:text="测试按钮"
-            android:textSize="30dp"
+            android:text="Clear"
+            android:textSize="25dp"
             />
 
 
@@ -46,17 +49,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="4"
+        android:layout_weight="7"
         >
 
         <TextView
             android:id="@+id/HS_TV_1"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="Test"
-            android:textSize="20dp"
+            android:layout_height="wrap_content"
+            android:text="This APP is made By : \nHongyi.Lan\nXican.Luo\nJiaze.Zhang\nJiajun.Chen\n\n
+            \nThank for Using or Watching!\n\nThis is our first team work, there may be many shortcomings, please forgive us
+            \n\nThx again!\n\n                  610CS183Project"
+            android:textSize="30dp"
             android:textColor="#FFFFFF"
+
             />
+
     </LinearLayout>
 
 </LinearLayout>
