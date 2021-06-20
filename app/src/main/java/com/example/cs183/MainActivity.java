@@ -3,6 +3,8 @@ package com.example.cs183;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,6 +35,8 @@ import com.baidu.mapapi.model.LatLngBounds;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.baidu.location.e.a.k;
+
 public class MainActivity extends AppCompatActivity {
     //地图系列
     private MapView mMapView = null;
@@ -43,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
     private MyLocationConfiguration.LocationMode locationMode;
 
     private boolean hasEnterTest = false ;
+
+
+    private  MyDatabaseHelper dbHelper ;
+    private SQLiteDatabase db;
 
     //标点系列
     private String showText = " " ;
@@ -63,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView textView1;
     private TextView textView2;
 
+    double[] readLati1=new double[100];
+    double[] readLongti1=new double[100];
 
 
     @Override
@@ -204,10 +214,16 @@ public class MainActivity extends AppCompatActivity {
         history.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"进入历史记录管理",Toast.LENGTH_SHORT).show();
-                Intent intent = null ;
-                intent = new Intent(MainActivity.this , History.class);
-                startActivity(intent);
+                Toast.makeText(MainActivity.this,"加载数据库数据",Toast.LENGTH_SHORT).show();
+
+                readLongitude(); //double[] readLongti=new double[100];
+                readLatitude() ; // double[] readLati=new double[100];
+
+                Toast.makeText(MainActivity.this,"加载完成",Toast.LENGTH_SHORT).show();
+
+//                Intent intent = null ;
+//                intent = new Intent(MainActivity.this , History.class);
+//                startActivity(intent);
             }
         });
 
@@ -286,6 +302,47 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+
+    }
+
+
+    //单独分别读取纬度 latitude
+    public void   readLatitude(){
+        Cursor c = db.rawQuery("SELECT * FROM " + "HoleDatabase", null);
+//        double[] readLati=new double[2];
+//
+//        for (int j = 0; j < readLati.length; j++) {
+//            if (c.moveToFirst()) {
+//                readLati[j] = 0 ;
+//            }
+//        }
+//
+//        //一行一行读取数据
+//        for (int i = 0; i < readLati.length; i++) {
+//            if (c.moveToFirst()) {
+//                readLati[i] = c.getDouble(3);
+//            }
+//        }
+//
+//        return readLati;
+    }
+
+
+    //单独分别读取纬度 Longitude
+    public void readLongitude(){
+        Cursor c = db.rawQuery("SELECT * FROM " + "HoleDatabase", null);
+//        double[] readLongti=new double[2];
+//        for (int j = 0; j < readLongti.length; j++) {
+//            readLongti1[j] = 0 ;
+//        }
+//        //一行一行读取数据
+//        for (int i = 0; i < readLongti.length; i++) {
+//            if (c.moveToFirst()) {
+//                readLongti[i] = c.getDouble(4);
+//            }
+//        }
+//
+//        return readLongti;
 
     }
 

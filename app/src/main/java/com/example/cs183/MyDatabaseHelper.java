@@ -8,7 +8,7 @@ import android.widget.Toast;
 public class MyDatabaseHelper extends SQLiteOpenHelper {
 
     //创建表 并声明类型
-    public static final String CREATE_BOOK = "create table HoleDatabase1("
+    public static final String CREATE_BOOK = "create table HoleDatabase("
 
             +"rank integer,"
             +"time long,"

@@ -322,6 +322,17 @@ public class TestPoint extends AppCompatActivity {
                 istest = true ;
                 Toast.makeText(TestPoint.this,"开始测试！",Toast.LENGTH_SHORT).show();
                 drawTip(26.06374,119.19198,bd,"test1");
+
+                holeNum++;
+                holeLatitude = userLatitude ;
+                holeLongitude = userLongitude ;
+
+                //存储模块--------------------------------------------------------------------------------------------------------------------
+                holes[currentIndex] = new Hole(theTimerEnd - theTimerStart , Math.abs(holeStart - holeEnd) , holeLatitude ,holeLongitude);
+                holes[currentIndex].RankHole();
+                Toast.makeText(TestPoint.this,"存储一个坑洞，编号为" + currentIndex + "  等级为 " +holes[currentIndex].getRank() ,Toast.LENGTH_SHORT).show();
+                drawTip(holeLatitude,holeLongitude,bd,""+"测试显示： \n" +holes[currentIndex].getLongitude() + "\n" + holes[currentIndex].getLatitude()+"\n");
+                Toast.makeText(TestPoint.this,"成功标记",Toast.LENGTH_SHORT).show();
                 drawTip(userLatitude,userLongitude,bd,"test2");
 
 
@@ -445,7 +456,6 @@ public class TestPoint extends AppCompatActivity {
                 if(holes[k]!= null){
                     theSum += "第"+ k +"个洞 "+":  "+holes[k].getRank()+" "+holes[k].getTime()+" "+holes[k].getValue()+"\n"+holes[k].getLatitude()+"  "+holes[k].getLongitude() + "\n\n" ;
                 }else{
-                    Toast.makeText(TestPoint.this,"完毕",Toast.LENGTH_SHORT).show();
                 }
             }
         return  theSum ;
@@ -456,7 +466,7 @@ public class TestPoint extends AppCompatActivity {
         for(int j = 0 ; j <= 149 ; j++){
 
             if(holes[0] == null){
-                Toast.makeText(TestPoint.this,"没东西存个锤子？",Toast.LENGTH_SHORT).show();
+                Toast.makeText(TestPoint.this,"没东西",Toast.LENGTH_SHORT).show();
                 break;
             }
 
@@ -481,7 +491,7 @@ public class TestPoint extends AppCompatActivity {
             values.put("Longitude", holes[j].getLongitude());
 
             //插入表
-            db.insert("HoleDatabase1", null, values); //holedatabase为数据库表名
+            db.insert("HoleDatabase", null, values); //holedatabase为数据库表名
 
         }
     }
