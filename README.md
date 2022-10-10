@@ -12,11 +12,11 @@ MIEC大一学期的cs183 路面平整度测试，用了地图+加速度传感器
 3、地图API使用的是百度地图+天眼，相关使用方式在CSDN或者百度一下都有
 
 ## 写在最后 
-这个项目不是我一个人完成是，是本人于大一学习期间，与项目团队（共四人）一同完成 
-RetenQ：UI部分优化，集成项目，进行坑洞检测的大概算法的实现 
-Anthony：最开始的UI设计，地图API的接入，相关地图功能的实现 
-Garrio：天眼API的接入使用，配合Anthony完善地图方面功能的调用  
-Justin：数据记录、存储、读取与展示，连接数据的存读
+这个项目不是我一个人完成是，是本人于大一学习期间，与项目团队（共四人）一同完成     
+RetenQ：UI部分优化，集成项目，进行坑洞检测的大概算法的实现     
+Anthony：最开始的UI设计，地图API的接入，相关地图功能的实现     
+Garrio：天眼API的接入使用，配合Anthony完善地图方面功能的调用      
+Justin：数据记录、存储、读取与展示，连接数据的存读    
 
 > 由于我是懒狗，所以不附上他们的gitHub账户了（他们在该项目的organization里面，如果你想找他们的话）
 
@@ -34,10 +34,10 @@ If you want to learn from ideas, please refer to the "Technology and Learning" s
 3. The map API uses Baidu Map + Sky Eye, and the related usage methods are available on CSDN or Baidu.
 
 ## write at the end
-I did not complete this project alone, but I completed it together with the project team (four people in total) during my freshman year of study.
-RetenQ: UI part optimization, integration project, implementation of rough algorithm for pothole detection
-Anthony: Initial UI design, access to map API, implementation of related map functions
-Garrio: Access and use of the Sky Eye API, and cooperate with Anthony to improve the call of map functions
-Justin: data recording, storage, reading and display, connecting data storage and reading
+I did not complete this project alone, but I completed it together with the project team (four people in total) during my freshman year of study.   
+RetenQ: UI part optimization, integration project, implementation of rough algorithm for pothole detection    
+Anthony: Initial UI design, access to map API, implementation of related map functions    
+Garrio: Access and use of the Sky Eye API, and cooperate with Anthony to improve the call of map functions    
+Justin: data recording, storage, reading and display, connecting data storage and reading   
 
 > Since I'm a lazy dog, I won't attach their gitHub account (they are in the project's organization, if you want to find them)
